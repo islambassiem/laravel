@@ -1,5 +1,7 @@
 @extends('layouts.app')
-
+@section('title')
+    {{ __('titles.login') }}
+@endsection
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
