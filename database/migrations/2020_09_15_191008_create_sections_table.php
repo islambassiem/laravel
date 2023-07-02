@@ -4,27 +4,31 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateSectionsTable extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('sections', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->string('section_name', 999);
             $table->text('description')->nullable();
-            $table->string('created_by',999);
+            $table->string('Created_by', 999);
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('sections');
     }
-};
+}

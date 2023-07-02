@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Sections extends Model
+class sections extends Model
 {
     use HasFactory;
     protected $fillable = [
@@ -13,4 +13,8 @@ class Sections extends Model
         'description',
         'created_by',
     ];
+
+    public function section(){
+        return $this->belongsTo('invoices');
+    }
 }
