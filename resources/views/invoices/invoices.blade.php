@@ -36,7 +36,6 @@
                     type: "success"
                 })
             }
-
         </script>
     @endif
 
@@ -104,22 +103,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @php
-                                $i = 0;
-                                @endphp
+                                @php $c = 0; @endphp
                                 @foreach ($invoices as $invoice)
-                                    @php
-                                    $i++
-                                    @endphp
+                                    @php $c++ @endphp
                                     <tr>
-                                        <td>{{ $i }}</td>
+                                        <td>{{ $c }}</td>
                                         <td>{{ $invoice->invoice_number }} </td>
                                         <td>{{ $invoice->invoice_Date }}</td>
                                         <td>{{ $invoice->Due_date }}</td>
                                         <td>{{ $invoice->product }}</td>
-                                        <td><a
-                                                href="{{ url('InvoicesDetails') }}/{{ $invoice->id }}">{{ $invoice->section_id }}</a>
-                                        </td>
+                                        <td><a href="{{ url('InvoicesDetails') }}/{{ $invoice->id }}">{{ $invoice->section->section_name }}</a></td>
                                         <td>{{ $invoice->Discount }}</td>
                                         <td>{{ $invoice->Rate_VAT }}</td>
                                         <td>{{ $invoice->Value_VAT }}</td>
@@ -132,9 +125,7 @@
                                             @else
                                                 <span class="text-warning">{{ $invoice->Status }}</span>
                                             @endif
-
                                         </td>
-
                                         <td>{{ $invoice->note }}</td>
                                         <td>
                                             <div class="dropdown">

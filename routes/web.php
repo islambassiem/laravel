@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\InvoicesController;
+use App\Http\Controllers\InvoicesDetailsController;
 use App\Http\Controllers\SectionsController;
 use App\Http\Controllers\ProductsController;
 
@@ -32,3 +33,5 @@ Route::resource('/products', ProductsController::class);
 Route::get('/{page}', [AdminController::class, 'index']);
 
 Route::get('/section/{id}', [InvoicesController::class ,'getproducts']);
+
+Route::get('InvoicesDetails/{id}', [InvoicesDetailsController::class, 'getInvoice']);
