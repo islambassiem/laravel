@@ -35,3 +35,9 @@ Route::get('/{page}', [AdminController::class, 'index']);
 Route::get('/section/{id}', [InvoicesController::class ,'getproducts']);
 
 Route::get('InvoicesDetails/{id}', [InvoicesDetailsController::class, 'getInvoice']);
+
+Route::get('View_file/{invoice_number}/{file_name}', [InvoicesDetailsController::class, 'open_file']);
+
+Route::get('download/{invoice_number}/{file_name}', [InvoicesDetailsController::class, 'get_file']);
+
+Route::post('delete_file', [InvoicesDetailsController::class,'destroy'])->name('delete_file');
