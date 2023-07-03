@@ -6,6 +6,7 @@ use App\Models\Invoices;
 use App\Models\invoices_details;
 use App\Models\invoice_attachments;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class InvoicesDetailsController extends Controller
 {
