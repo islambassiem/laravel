@@ -9,6 +9,7 @@ use App\Models\invoices_details;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class InvoicesController extends Controller
 {
@@ -80,7 +81,7 @@ class InvoicesController extends Controller
 
             // move pic
             $imageName = $request->pic->getClientOriginalName();
-            $request->pic->move(public_path('Attachments/' . $invoice_number), $imageName);
+            $request->pic->move(public_path('Attachment/' . $invoice_number), $imageName);
         }
 
         session()->flash('Add', 'تم اضافة الفاتورة بنجاح');
@@ -98,9 +99,11 @@ class InvoicesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Invoices $invoices)
+    public function edit($id)
     {
-        //
+        $invoices = invoices::where('id', $id)->first();
+        $sections = sections::all();
+        return view('invoices.edit_invoice', compact('sections', 'invoices'));
     }
 
     /**
@@ -108,16 +111,43 @@ class InvoicesController extends Controller
      */
     public function update(Request $request, Invoices $invoices)
     {
-        //
+        $invoices = invoices::findOrFail($request->invoice_id);
+        $invoices->update([
+            'invoice_number' => $request->invoice_number,
+            'invoice_Date' => $request->invoice_Date,
+            'Due_date' => $request->Due_date,
+            'product' => $request->product,
+            'section_id' => $request->Section,
+            'Amount_collection' => $request->Amount_collection,
+            'Amount_Commission' => $request->Amount_Commission,
+            'Discount' => $request->Discount,
+            'Value_VAT' => $request->Value_VAT,
+            'Rate_VAT' => $request->Rate_VAT,
+            'Total' => $request->Total,
+            'note' => $request->note,
+        ]);
+
+        session()->flash('edit', 'تم تعديل الفاتورة بنجاح');
+        return back();
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Invoices $invoices)
+    public function destroy(Request $request)
     {
-        //
+        $id = $request->invoice_id;
+        $invoices = invoices::where('id', $id)->first();
+        $Details = invoice_attachments::where('invoice_id', $id)->first();
+        exec ("find /Attachment/$Details->invoice_number -type d -exec chmod 0777 {} +");
+        if (!empty($Details->invoice_number)) {
+            Storage::disk('public_uploads')->deleteDirectory("Attachment/".$Details->invoice_number);
+        }
+        $invoices->forceDelete();
+        session()->flash('delete_invoice');
+        return redirect('/invoices');
     }
+
 
     public function getproducts($id)
     {

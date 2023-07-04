@@ -41,3 +41,5 @@ Route::get('View_file/{invoice_number}/{file_name}', [InvoicesDetailsController:
 Route::get('download/{invoice_number}/{file_name}', [InvoicesDetailsController::class, 'get_file']);
 
 Route::post('delete_file', [InvoicesDetailsController::class,'destroy'])->name('delete_file');
+
+Route::get('/edit_invoice/{id}', [InvoicesController::class, 'edit']);
