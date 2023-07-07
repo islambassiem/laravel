@@ -140,13 +140,23 @@ class InvoicesController extends Controller
         $id = $request->invoice_id;
         $invoices = invoices::where('id', $id)->first();
         $Details = invoice_attachments::where('invoice_id', $id)->first();
-        exec ("find /Attachment/$Details->invoice_number -type d -exec chmod 0777 {} +");
-        if (!empty($Details->invoice_number)) {
-            Storage::disk('public_uploads')->deleteDirectory($Details->invoice_number);
+        $id_page =$request->id_page;
+        if (!$id_page==2) {
+            if (!empty($Details->invoice_number)) {
+                Storage::disk('public_uploads')->deleteDirectory($Details->invoice_number);
+            }
+            $invoices->forceDelete();
+            session()->flash('delete_invoice');
+            return redirect('/invoices');
         }
-        $invoices->forceDelete();
-        session()->flash('delete_invoice');
-        return redirect('/invoices');
+        else
+        {
+            $invoices->delete();
+            session()->flash('archive_invoice');
+            return redirect('/Archive');
+        }
+
+
     }
 
 
@@ -203,5 +213,23 @@ class InvoicesController extends Controller
         session()->flash('Status_Update');
         return redirect('/invoices');
 
+    }
+
+    public function Invoice_Paid()
+    {
+        $invoices = Invoices::where('Value_Status', 1)->get();
+        return view('invoices.Invoices_Paid',compact('invoices'));
+    }
+
+    public function Invoice_UnPaid()
+    {
+        $invoices = Invoices::where('Value_Status',2)->get();
+        return view('invoices.invoices_unpaid',compact('invoices'));
+    }
+
+    public function Invoice_Partial()
+    {
+        $invoices = Invoices::where('Value_Status',3)->get();
+        return view('invoices.invoices_Partial',compact('invoices'));
     }
 }

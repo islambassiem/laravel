@@ -6,6 +6,8 @@ use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\InvoicesDetailsController;
 use App\Http\Controllers\SectionsController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\InvoiceAchiveController;
+use Illuminate\Routing\Route as RoutingRoute;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -31,7 +33,8 @@ Route::resource('/invoices', InvoicesController::class);
 Route::resource('/sections', SectionsController::class);
 Route::resource('/products', ProductsController::class);
 
-Route::get('/{page}', [AdminController::class, 'index']);
+
+// Route::get('/{page}', [AdminController::class, 'index']);
 
 Route::get('/section/{id}', [InvoicesController::class ,'getproducts']);
 
@@ -48,3 +51,11 @@ Route::get('/edit_invoice/{id}', [InvoicesController::class, 'edit']);
 Route::get('/Status_show/{id}', [InvoicesController::class, 'show'])->name('Status_show');
 
 Route::post('/Status_Update/{id}', [InvoicesController::class, 'Status_Update'])->name('Status_Update');
+
+Route::resource('/Archive', InvoiceAchiveController::class);
+
+Route::get('Invoice_Paid',[InvoicesController::class, 'Invoice_Paid']);
+
+Route::get('Invoice_Unpaid',[InvoicesController::class, 'Invoice_UnPaid']);
+
+Route::get('Invoice_Partial',[InvoicesController::class, 'Invoice_Partial']);
