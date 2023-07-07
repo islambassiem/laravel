@@ -161,12 +161,12 @@
                                                             الارشيف</a>
                                                     {{-- @endcan --}}
 
-                                                    @can('طباعةالفاتورة')
+                                                    {{-- @can('طباعةالفاتورة') --}}
                                                         <a class="dropdown-item" href="Print_invoice/{{ $invoice->id }}"><i
                                                                 class="text-success fas fa-print"></i>&nbsp;&nbsp;طباعة
                                                             الفاتورة
                                                         </a>
-                                                    @endcan
+                                                    {{-- @endcan --}}
                                                 </div>
                                             </div>
 
