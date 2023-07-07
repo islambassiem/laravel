@@ -141,7 +141,7 @@ class InvoicesController extends Controller
         $Details = invoice_attachments::where('invoice_id', $id)->first();
         exec ("find /Attachment/$Details->invoice_number -type d -exec chmod 0777 {} +");
         if (!empty($Details->invoice_number)) {
-            Storage::disk('public_uploads')->deleteDirectory("Attachment/".$Details->invoice_number);
+            Storage::disk('public_uploads')->deleteDirectory($Details->invoice_number);
         }
         $invoices->forceDelete();
         session()->flash('delete_invoice');
